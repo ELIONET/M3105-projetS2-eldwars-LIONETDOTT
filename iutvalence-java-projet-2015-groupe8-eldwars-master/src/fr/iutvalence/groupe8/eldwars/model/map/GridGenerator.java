@@ -317,17 +317,17 @@ public class GridGenerator
 			for (int column = 0; column < MAX_DISTANCE_SPILL_WATER - rand.nextInt((int) this.gridHeight / 16); column++)
 			{
 
-				if (pos.getX() + line < this.gridWidth && pos.getY() + column < this.gridHeight)
-					grid.getCell(pos.shift(line, column)).setSurface(Surface.WATER);
+				if (pos.getXCoord() + line < this.gridWidth && pos.getYCoord() + column < this.gridHeight)
+					grid.getCell(pos.newPos(line, column)).setSurface(Surface.WATER);
 
-				if (pos.getX() - line >= 0 && pos.getY() + column < this.gridHeight)
-					grid.getCell(pos.shift(-line, column)).setSurface(Surface.WATER);
+				if (pos.getXCoord() - line >= 0 && pos.getYCoord() + column < this.gridHeight)
+					grid.getCell(pos.newPos(-line, column)).setSurface(Surface.WATER);
 
-				if (pos.getX() - line >= 0 && pos.getY() - column >= 0)
-					grid.getCell(pos.shift(-line, -column)).setSurface(Surface.WATER);
+				if (pos.getXCoord() - line >= 0 && pos.getYCoord() - column >= 0)
+					grid.getCell(pos.newPos(-line, -column)).setSurface(Surface.WATER);
 
-				if (pos.getX() + line < this.gridWidth && pos.getY() - column >= 0)
-					grid.getCell(pos.shift(line, -column)).setSurface(Surface.WATER);
+				if (pos.getXCoord() + line < this.gridWidth && pos.getYCoord() - column >= 0)
+					grid.getCell(pos.newPos(line, -column)).setSurface(Surface.WATER);
 			}
 		}
 

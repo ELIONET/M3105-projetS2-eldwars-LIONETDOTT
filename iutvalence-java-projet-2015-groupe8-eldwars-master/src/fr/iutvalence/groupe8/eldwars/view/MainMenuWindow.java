@@ -254,7 +254,7 @@ public class MainMenuWindow extends JFrame {
 				setVisible(false);
 				Player p1 = new Player(new Team(Color.BLUE));
 				Player p2 = new Player(new Team(Color.RED));
-				new Game(p1, p2).start();
+				new Game(p1, p2).startGame();
 				setVisible(true);
 				setAlwaysOnTop(true);
 				setAlwaysOnTop(false);

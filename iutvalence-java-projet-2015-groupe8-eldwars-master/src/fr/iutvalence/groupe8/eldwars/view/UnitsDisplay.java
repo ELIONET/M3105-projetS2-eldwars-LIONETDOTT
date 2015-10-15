@@ -115,7 +115,7 @@ public class UnitsDisplay extends JPanel
 	 */
 	public void updateSprite(Pos pos, Surface surface)
 	{
-		updateSprite(pos.getX(), pos.getY(), surface);
+		updateSprite(pos.getXCoord(), pos.getYCoord(), surface);
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class UnitsDisplay extends JPanel
 	 */
 	public void updateDisplay(Pos pos)
 	{
-		updateDisplay(pos.getX(), pos.getY());
+		updateDisplay(pos.getXCoord(), pos.getYCoord());
 	}
 
 	/**

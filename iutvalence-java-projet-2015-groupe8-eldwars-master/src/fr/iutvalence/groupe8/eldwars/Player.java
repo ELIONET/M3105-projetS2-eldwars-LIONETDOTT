@@ -12,130 +12,73 @@ import fr.iutvalence.groupe8.eldwars.view.StringAskWindow;
  */
 public class Player {
 
-	/**
-	 * The number of units.
-	 */
+	
 	private int nbUnits;
 
-	/**
-	 * The Player's gold amount.
-	 */
-	private int gold;
+	private int playerGold;
 
-	/**
-	 * The Player's nickname.
-	 */
-	private final String nickname;
+	private final String playerNickname;
 
-	/**
-	 * The commander unit.
-	 */
 	private final Commander commander;
 	
-	/**
-	 * The Player's Team.
-	 */
-	private final Team team;
+	private final Team playerTeam;
 
-	/**
-	 * The Player constructor.
-	 */
+
 	public Player(Team team) {
-		this.team = team;
+		this.playerTeam = team;
 		this.commander = new Commander(this, null);
 		this.nbUnits = 1;
-		this.gold = 0;
+		this.playerGold = 0;
 		String temp = "";
 		do {
 			StringAskWindow newPlayerWindow = new StringAskWindow("Dialog", "Enter your nickname, please.");
 			temp = newPlayerWindow.showAndWaitForResult();
 		} while(temp.equals(""));
-		this.nickname = temp;
+		this.playerNickname = temp;
 	}
 
-	/**
-	 * Get the number of units.
-	 * 
-	 * @return The number of units.
-	 */
 	public int getUnitsNb() {
 		return this.nbUnits;
 	}
 
-	/**
-	 * Get the Player's Team.
-	 * 
-	 * @return A Team object.
-	 */
-	public Team getTeam() {
-		return this.team;
+	public Team getPlayerTeam() {
+		return this.playerTeam;
 	}
 
-	/**
-	 * Get the Player's Commander.
-	 * 
-	 * @return The Player's Commander.
-	 */
 	public Commander getCommander() {
 		return this.commander;
 	}
 	
-	/**
-	 * Get the Player's Current gold
-	 * 
-	 * @return The Player's Gold
-	 */
-	public int getGold(){
-		return this.gold;
+	public int getPlayerGold(){
+		return this.playerGold;
 	}
 	
-	/**
-	 * Get the Player's nickname
-	 * 
-	 * @return The Player's Nickname
-	 */
 	public String getNickname(){
-		return this.nickname;
+		return this.playerNickname;
 	}
 
-	/**
-	 * Increase by one the Player's amount of unit.
-	 */
-	public void addUnit(){
+	public void addOneUnitToPlayerCounter(){
 		this.nbUnits++;
 	}
-	/**
-	 * Remove by to the Player's amount of unit.
-	 */
-	public void removeUnit(){
+
+	public void removeOneUnitToPlayerCounter(){
 		this.nbUnits--;
 	}
 	
-	/**
-	 * Add gold to the Player.
-	 * @param amount
-	 */
-	public void addGold(int amount){
-		this.gold+=amount;
+	public void addGoldToThePlayer(int amount){
+		this.playerGold+=amount;
 	}
-	/**
-	 * Remove gold to the player.
-	 * @param amount
-	 */
-	public void removeGold(int amount){
-		this.gold-=amount;
+
+	public void removeGoldToThePlayer(int amount){
+		this.playerGold-=amount;
 	}
 	
-	/**
-	 * Set gold to the Player.
-	 * @param amount
-	 */
-	public void setGold(int amount){
-		this.gold=amount;
+	public void setPlayerGold(int amount){
+		this.playerGold=amount;
 	}
 	
 	public String toString() {
-		return this.nickname + "|" + this.commander.toString();
+		return this.playerNickname + "|" + this.commander.toString();
 	}
 	
 	public boolean equals(Player player) {

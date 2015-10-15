@@ -22,47 +22,18 @@ import fr.iutvalence.groupe8.eldwars.view.actions.ActionsArea;
  */
 public class Turn {
 
-	/**
-	 * The GameWindow to use.
-	 */
 	private final GameWindow window;
 
-	/**
-	 * The Grid to use.
-	 */
 	private final Grid grid;
 
-	/**
-	 * The Turn's Player.
-	 */
 	private final Player player;
-	
-	/**
-	 * The round number
-	 */
+
 	private int roundNumber;
-	
-	/**
-	 * Collection of units which attacked
-	 */
 
 	private LinkedList<Unit> unitsThatAttacked;
-	
-	/**
-	 * Collection of units which moved
-	 */
+
 	private LinkedList<Unit> unitsThatMoved;
 
-	/**
-	 * The Turn constructor.
-	 * 
-	 * @param window
-	 *            - The GameWindow to use.
-	 * @param grid
-	 *            - The Grid to use.
-	 * @param player
-	 *            - The Turn's Player.
-	 */
 	public Turn(GameWindow window, Grid grid, Player player, int roundNumber) {
 		this.window = window;
 		this.grid = grid;
@@ -70,24 +41,20 @@ public class Turn {
 		this.roundNumber=roundNumber;
 	}
 
-	/**
-	 * Starts the Turn.
-	 */
 	public void start() {
 		Pos pos = null;
 		Pos newPos = null;
-		Player owner = null;
 		ActionType act = null;
 		Unit selectedUnit;
 		
 		this.unitsThatAttacked = new LinkedList<Unit>();
 		this.unitsThatMoved = new LinkedList<Unit>(); 
-		this.player.addGold(10+this.roundNumber);
+		this.player.addGoldToThePlayer(10+this.roundNumber);
 
 		this.window.getActionsArea().getPlayerStats().setNickname(this.player.getNickname());
 
 		do {
-			this.window.getActionsArea().getPlayerStats().setGold(this.player.getGold());
+			this.window.getActionsArea().getPlayerStats().setGold(this.player.getPlayerGold());
 
 			// Main loop, waiting that you have selected a pos and an action or you
 			// select the next round button.
@@ -158,12 +125,6 @@ public class Turn {
 
 	}
 
-	/**
-	 * Handles the requested action.
-	 * 
-	 * @param pos
-	 * @param act
-	 */
 	private boolean handleAction(Pos pos, ActionType act) {
 		
 		boolean toReturn;

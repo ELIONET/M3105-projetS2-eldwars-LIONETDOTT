@@ -96,7 +96,7 @@ public class Grid {
 	 * @return A Cell.
 	 */
 	public Cell getCell(Pos pos) {
-		return grid[pos.getX()][pos.getY()];
+		return grid[pos.getXCoord()][pos.getYCoord()];
 	}
 
 	/**
@@ -107,32 +107,32 @@ public class Grid {
 	 */
 	private Set<Pos> possiblesMovesAroundASpecificPosition(Pos pos) {
 		HashSet<Pos> listOfCellAroundASpecificPosition = new HashSet<Pos>();
-		int x = pos.getX(), y = pos.getY();
+		int x = pos.getXCoord(), y = pos.getYCoord();
 
 		// We must check if positions around the first one aren't out of the
 		// grid and are navigable.
 		if (x + 1 < this.width && getCell(x + 1, y).getSurface().canWalkOn()
-				&& !listOfCellAroundASpecificPosition.contains(pos.shift(1, 0))) {
-			listOfCellAroundASpecificPosition.add(pos.shift(1, 0));
+				&& !listOfCellAroundASpecificPosition.contains(pos.newPos(1, 0))) {
+			listOfCellAroundASpecificPosition.add(pos.newPos(1, 0));
 		}
 
 		if (x - 1 >= 0
 				&& getCell(x - 1, y).getSurface().canWalkOn()
 				&& !listOfCellAroundASpecificPosition
-						.contains(pos.shift(-1, 0))) {
-			listOfCellAroundASpecificPosition.add(pos.shift(-1, 0));
+						.contains(pos.newPos(-1, 0))) {
+			listOfCellAroundASpecificPosition.add(pos.newPos(-1, 0));
 		}
 
 		if (y + 1 < this.height && getCell(x, y + 1).getSurface().canWalkOn()
-				&& !listOfCellAroundASpecificPosition.contains(pos.shift(0, 1))) {
-			listOfCellAroundASpecificPosition.add(pos.shift(0, 1));
+				&& !listOfCellAroundASpecificPosition.contains(pos.newPos(0, 1))) {
+			listOfCellAroundASpecificPosition.add(pos.newPos(0, 1));
 		}
 
 		if (y - 1 >= 0
 				&& getCell(x, y - 1).getSurface().canWalkOn()
 				&& !listOfCellAroundASpecificPosition
-						.contains(pos.shift(0, -1))) {
-			listOfCellAroundASpecificPosition.add(pos.shift(0, -1));
+						.contains(pos.newPos(0, -1))) {
+			listOfCellAroundASpecificPosition.add(pos.newPos(0, -1));
 		}
 
 		return listOfCellAroundASpecificPosition;
@@ -146,20 +146,20 @@ public class Grid {
 	 */
 	private List<Pos> cellsAroundACell(Pos unitPosition) {
 		List<Pos> list = new LinkedList<Pos>();
-		if (unitPosition.getX() + 1 <= this.width && getCell(unitPosition.shift(1, 0)).getSurface().canWalkOn()) {
-			list.add(unitPosition.shift(1, 0));
+		if (unitPosition.getXCoord() + 1 <= this.width && getCell(unitPosition.newPos(1, 0)).getSurface().canWalkOn()) {
+			list.add(unitPosition.newPos(1, 0));
 		}
 		
-		if (unitPosition.getX() - 1 >= 0 && getCell(unitPosition.shift(-1, 0)).getSurface().canWalkOn()) {
-			list.add(unitPosition.shift(-1, 0));
+		if (unitPosition.getXCoord() - 1 >= 0 && getCell(unitPosition.newPos(-1, 0)).getSurface().canWalkOn()) {
+			list.add(unitPosition.newPos(-1, 0));
 		}
 		
-		if (unitPosition.getY() + 1 <= this.height && getCell(unitPosition.shift(0, 1)).getSurface().canWalkOn()) {
-			list.add(unitPosition.shift(0, 1));
+		if (unitPosition.getYCoord() + 1 <= this.height && getCell(unitPosition.newPos(0, 1)).getSurface().canWalkOn()) {
+			list.add(unitPosition.newPos(0, 1));
 		}
 		
-		if (unitPosition.getY() - 1 >= 0 && getCell(unitPosition.shift(0, -1)).getSurface().canWalkOn()) {
-			list.add(unitPosition.shift(0, -1));
+		if (unitPosition.getYCoord() - 1 >= 0 && getCell(unitPosition.newPos(0, -1)).getSurface().canWalkOn()) {
+			list.add(unitPosition.newPos(0, -1));
 		}
 		return list;
 	}
@@ -181,14 +181,14 @@ public class Grid {
 			// For every already reachable positions (in term of range), we add
 			// every which are one cell further.
 			for (int i = 0; i < tempList.size(); i++) {
-				if (tempList.get(i).getX() + 1 < this.width)
-					listOfCellInRangeOfAttack.add(tempList.get(i).shift(1, 0));
-				if (tempList.get(i).getX() - 1 >= 0)
-					listOfCellInRangeOfAttack.add(tempList.get(i).shift(-1, 0));
-				if (tempList.get(i).getY() + 1 < this.height)
-					listOfCellInRangeOfAttack.add(tempList.get(i).shift(0, 1));
-				if (tempList.get(i).getY() - 1 >= 0)
-					listOfCellInRangeOfAttack.add(tempList.get(i).shift(0, -1));
+				if (tempList.get(i).getXCoord() + 1 < this.width)
+					listOfCellInRangeOfAttack.add(tempList.get(i).newPos(1, 0));
+				if (tempList.get(i).getXCoord() - 1 >= 0)
+					listOfCellInRangeOfAttack.add(tempList.get(i).newPos(-1, 0));
+				if (tempList.get(i).getYCoord() + 1 < this.height)
+					listOfCellInRangeOfAttack.add(tempList.get(i).newPos(0, 1));
+				if (tempList.get(i).getYCoord() - 1 >= 0)
+					listOfCellInRangeOfAttack.add(tempList.get(i).newPos(0, -1));
 
 			}
 			unitRange--;
@@ -279,9 +279,9 @@ public class Grid {
 		// http://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_segment_de_Bresenham
 		// I had to set it, because it wasn't able to work for every situation.
 		while (counter < listOfPosInRange.size()) {
-			int x1 = unitPosition.getX(), y1 = unitPosition.getY();
-			int x2 = listOfPosInRange.get(counter).getX(), y2 = listOfPosInRange
-					.get(counter).getY();
+			int x1 = unitPosition.getXCoord(), y1 = unitPosition.getYCoord();
+			int x2 = listOfPosInRange.get(counter).getXCoord(), y2 = listOfPosInRange
+					.get(counter).getYCoord();
 			// Searching for case according to the X coordinates if
 			// |x1-x2|>|y1-y2|.
 			if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
@@ -453,7 +453,7 @@ public class Grid {
 				selectedUnit2.setLife(selectedUnit2.getLife()
 						- selectedUnit1.getAttackDamage());
 				if (selectedUnit2.getLife() <= 0) {
-					getCell(unit2Position).getUnit().getOwner().removeUnit();
+					getCell(unit2Position).getUnit().getOwner().removeOneUnitToPlayerCounter();
 					getCell(unit2Position).clearUnit();
 				}
 				return true;
@@ -481,26 +481,26 @@ public class Grid {
 		tempList.add(pos);
 		list.retainAll(tempList);
 
-		if (unitType == UnitType.BOWMAN && owner.getGold() >= Bowman.BOWMAN_COST && getCell(pos).getUnit() == null && !list.isEmpty()) {
+		if (unitType == UnitType.BOWMAN && owner.getPlayerGold() >= Bowman.BOWMAN_COST && getCell(pos).getUnit() == null && !list.isEmpty()) {
 			this.getCell(pos).setUnit(new Bowman(owner, pos));
-			owner.removeGold(Bowman.BOWMAN_COST);
-			owner.addUnit();
+			owner.removeGoldToThePlayer(Bowman.BOWMAN_COST);
+			owner.addOneUnitToPlayerCounter();
 			return true;
 
 		} else if (unitType == UnitType.SOLDIER
-				&& owner.getGold() >= Soldier.SOLDIER_COST
+				&& owner.getPlayerGold() >= Soldier.SOLDIER_COST
 				&& getCell(pos).getUnit() == null && !list.isEmpty()) {
 			this.getCell(pos).setUnit(new Soldier(owner, pos));
-			owner.removeGold(Soldier.SOLDIER_COST);
-			owner.addUnit();
+			owner.removeGoldToThePlayer(Soldier.SOLDIER_COST);
+			owner.addOneUnitToPlayerCounter();
 			return true;
 
 		} else if (unitType == UnitType.HORSEMAN
-				&& owner.getGold() >= Horseman.HORSEMAN_COST
+				&& owner.getPlayerGold() >= Horseman.HORSEMAN_COST
 				&& getCell(pos).getUnit() == null && !list.isEmpty()) {
 			this.getCell(pos).setUnit(new Horseman(owner, pos));
-			owner.removeGold(Horseman.HORSEMAN_COST);
-			owner.addUnit();
+			owner.removeGoldToThePlayer(Horseman.HORSEMAN_COST);
+			owner.addOneUnitToPlayerCounter();
 			return true;
 
 		} else
@@ -514,32 +514,32 @@ public class Grid {
 	 * @return True if the unit is upgraded, false otherwise.
 	 */
 	public boolean upgradeUnit(Unit unit) {
-		if (unit.getType() == UnitType.BOWMAN && unit.getOwner().getGold() >= Bowman.BOWMAN_COST * unit.getLevel() && unit.getLevel() <= 5) {
+		if (unit.getType() == UnitType.BOWMAN && unit.getOwner().getPlayerGold() >= Bowman.BOWMAN_COST * unit.getLevel() && unit.getLevel() <= 5) {
 			//The bowman can be upgraded 5 times.
-			unit.getOwner().removeGold(Bowman.BOWMAN_COST * unit.getLevel());
+			unit.getOwner().removeGoldToThePlayer(Bowman.BOWMAN_COST * unit.getLevel());
 			unit.levelUpUnit();
 			return true;
 
 		}
 		
-		if (unit.getType() == UnitType.SOLDIER && unit.getOwner().getGold() >= Soldier.SOLDIER_COST * unit.getLevel() && unit.getLevel() <= 5) {
+		if (unit.getType() == UnitType.SOLDIER && unit.getOwner().getPlayerGold() >= Soldier.SOLDIER_COST * unit.getLevel() && unit.getLevel() <= 5) {
 			//The soldier can be upgraded 5 times.
-			unit.getOwner().removeGold(Soldier.SOLDIER_COST * unit.getLevel());
+			unit.getOwner().removeGoldToThePlayer(Soldier.SOLDIER_COST * unit.getLevel());
 			unit.levelUpUnit();
 			return true;
 
 		}
 		
-		if (unit.getType() == UnitType.HORSEMAN && unit.getOwner().getGold() >= Horseman.HORSEMAN_COST * unit.getLevel() && unit.getLevel() <= 5) {
+		if (unit.getType() == UnitType.HORSEMAN && unit.getOwner().getPlayerGold() >= Horseman.HORSEMAN_COST * unit.getLevel() && unit.getLevel() <= 5) {
 			//The horseman can be upgraded 5 times.
-			unit.getOwner().removeGold(Horseman.HORSEMAN_COST * unit.getLevel());
+			unit.getOwner().removeGoldToThePlayer(Horseman.HORSEMAN_COST * unit.getLevel());
 			unit.levelUpUnit();
 			return true;
 		}
 		
-		if (unit.getType() == UnitType.COMMANDER && unit.getOwner().getGold() >= Commander.COMMANDER_COST * unit.getLevel() && unit.getLevel() <= 3) {
+		if (unit.getType() == UnitType.COMMANDER && unit.getOwner().getPlayerGold() >= Commander.COMMANDER_COST * unit.getLevel() && unit.getLevel() <= 3) {
 			//The commander can be upgraded 3times.
-			unit.getOwner().removeGold(Commander.COMMANDER_COST * unit.getLevel());
+			unit.getOwner().removeGoldToThePlayer(Commander.COMMANDER_COST * unit.getLevel());
 			unit.levelUpUnit();
 			return true;
 		}

@@ -10,17 +10,10 @@ import java.awt.Color;
  */
 public class Team {
 	
-	/**
-	 * The Team's color.
-	 */
-	private final Color color;
-	
-	/**
-	 * The Team constructor.
-	 * @param color
-	 */
+	private final Color teamColor;
+
 	public Team(Color color) {
-		this.color = color;
+		this.teamColor = color;
 	}
 	
 }

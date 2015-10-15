@@ -18,35 +18,19 @@ import fr.iutvalence.groupe8.eldwars.view.VictoryWindow;
  */
 public class Game {
 
-	/**
-	 * The first player.
-	 */
-	private Player p1;
 
-	/**
-	 * The second Player.
-	 */
-	private Player p2;
+	private Player player1;
 
-	/**
-	 * The Map.
-	 */
+	private Player player2;
+
 	private Map map;
 
-	/**
-	 * The main GameWindow.
-	 */
 	private GameWindow mainWindow;
 
-	/**
-	 * The Game constructor (used for a new game).
-	 * 
-	 * @param p1
-	 * @param p2
-	 */
+	
 	public Game(Player p1, Player p2) {
-		this.p1 = p1;
-		this.p2 = p2;
+		this.player1 = p1;
+		this.player2 = p2;
 
 		// Generates the Map.
 		this.map = new Map();
@@ -65,25 +49,8 @@ public class Game {
 //		p2.getCommander().setPosition(new Pos(Map.DEFAULT_MAP_WIDTH - 1, Map.DEFAULT_MAP_HEIGHT - 1));
 //		this.map.getGrid().getCell(Map.DEFAULT_MAP_WIDTH - 1, Map.DEFAULT_MAP_HEIGHT - 1).setUnit(p2.getCommander());
 	}
-
-	/**
-	 * The Game constructor (used for a loaded game).
-	 * 
-	 * @param p1
-	 * @param p2
-	 */
-	public Game(Player p1, Player p2, Map map) {
-		this.p1 = p1;
-		this.p2 = p2;
-		this.map = map;
-
-		// TODO The steps of loading an existing game.
-	}
-
-	/**
-	 * Starts the Game.
-	 */
-	public void start() {
+	
+	public void startGame() {
 		int counter = 0;
 		// Creates the GameWindow.
 		this.mainWindow = new GameWindow(this.map.getMapWidth(), this.map.getMapHeight());
@@ -94,8 +61,8 @@ public class Game {
 			}
 		}
 
-		this.mainWindow.getUnitsGridDisplay().updateSprite(this.p1.getCommander().getPosition(), this.p1.getCommander().getSurface());
-		this.mainWindow.getUnitsGridDisplay().updateSprite(this.p2.getCommander().getPosition(), this.p2.getCommander().getSurface());
+		this.mainWindow.getUnitsGridDisplay().updateSprite(this.player1.getCommander().getPosition(), this.player1.getCommander().getSurface());
+		this.mainWindow.getUnitsGridDisplay().updateSprite(this.player2.getCommander().getPosition(), this.player2.getCommander().getSurface());
 
 		this.mainWindow.setVisible(true); // Shows the window.
 
@@ -103,18 +70,18 @@ public class Game {
 		
 		while (this.mainWindow.isVisible()) { // Ends the game when closing the GameWindow.
 			counter++;
-			new Round(this.mainWindow, this.map.getGrid(), this.p1, this.p2, counter).start();
+			new Round(this.mainWindow, this.map.getGrid(), this.player1, this.player2, counter).startRound();
 
-			if (this.p1.getUnitsNb() == 0) {
+			if (this.player1.getUnitsNb() == 0) {
 				this.mainWindow.setEnabled(false);
-				new VictoryWindow(this.p2.getNickname()).showAndWaitForResult();
+				new VictoryWindow(this.player2.getNickname()).showAndWaitForResult();
 				this.mainWindow.setEnabled(true);
 				break;
 			}
 			
-			if (this.p2.getUnitsNb() == 0) {
+			if (this.player2.getUnitsNb() == 0) {
 				this.mainWindow.setEnabled(false);
-				new VictoryWindow(this.p1.getNickname()).showAndWaitForResult();
+				new VictoryWindow(this.player1.getNickname()).showAndWaitForResult();
 				this.mainWindow.setEnabled(true);
 				break;
 			}

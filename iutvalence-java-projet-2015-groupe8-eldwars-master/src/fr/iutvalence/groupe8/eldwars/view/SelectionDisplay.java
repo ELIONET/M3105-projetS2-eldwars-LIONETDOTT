@@ -125,7 +125,7 @@ public class SelectionDisplay extends JPanel {
 	 * @param pos
 	 */
 	public void updateDisplay(Pos pos) {
-		updateDisplay(pos.getX(), pos.getY());
+		updateDisplay(pos.getXCoord(), pos.getYCoord());
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class SelectionDisplay extends JPanel {
 	 *            - The cell's position.
 	 */
 	public void select(Pos pos) {
-		select(pos.getX(), pos.getY());
+		select(pos.getXCoord(), pos.getYCoord());
 	}
 
 	/**
@@ -259,7 +259,7 @@ public class SelectionDisplay extends JPanel {
 	 *            - The cell's position.
 	 */
 	public void unselect(Pos pos) {
-		unselect(pos.getX(), pos.getY());
+		unselect(pos.getXCoord(), pos.getYCoord());
 	}
 
 }

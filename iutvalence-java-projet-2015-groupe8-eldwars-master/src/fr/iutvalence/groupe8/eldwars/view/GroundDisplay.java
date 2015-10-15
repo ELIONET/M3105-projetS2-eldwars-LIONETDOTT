@@ -110,7 +110,7 @@ public class GroundDisplay extends JPanel {
 	 *            - The new surface.
 	 */
 	public void updateSprite(Pos pos, Surface surface) {
-		updateSprite(pos.getX(), pos.getY() , surface);
+		updateSprite(pos.getXCoord(), pos.getYCoord() , surface);
 	}
 
 	/**
@@ -149,8 +149,8 @@ public class GroundDisplay extends JPanel {
 	 * @param pos
 	 */
 	public void updateDisplay(Pos pos) {
-		int x = pos.getX();
-		int y = pos.getY();
+		int x = pos.getXCoord();
+		int y = pos.getYCoord();
 		// When the image hasn't been resized yet, it does the job.
 
 		// Gets the image thanks to the Enum Surface.
