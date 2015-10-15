@@ -12,20 +12,10 @@ import fr.iutvalence.groupe8.eldwars.Pos;
  */
 public class GridGenerator
 {
-
-	/**
-	 * The max distance to spill water.
-	 */
 	private final static int MAX_DISTANCE_SPILL_WATER = 4;
 
-	/**
-	 * The generated Grid width.
-	 */
 	private final int gridWidth;
 
-	/**
-	 * The generated Grid height.
-	 */
 	private final int gridHeight;
 
 	/**
@@ -101,29 +91,29 @@ public class GridGenerator
 
 		for (int grow1 = 0, grow2 = 0; grow1 < 3; grow1++)
 		{
-			grid.getCell(grow1, grow2).setSurface(Surface.GRASS);
+			grid.getCellAtSpecificsCoords(grow1, grow2).setCellSurface(Surface.GRASS);
 			for (grow2 = 0; grow2 < 3; grow2++)
-				grid.getCell(grow1, grow2).setSurface(Surface.GRASS);
+				grid.getCellAtSpecificsCoords(grow1, grow2).setCellSurface(Surface.GRASS);
 		}
 
-		grid.getCell(0, 3).setSurface(Surface.GRASS);
-		grid.getCell(3, 0).setSurface(Surface.GRASS);
-		grid.getCell(0, 4).setSurface(Surface.GRASS);
-		grid.getCell(4, 0).setSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(0, 3).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(3, 0).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(0, 4).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(4, 0).setCellSurface(Surface.GRASS);
 
-		grid.getCell(this.gridWidth - 1, this.gridHeight - 1).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 2, this.gridHeight - 1).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 1, this.gridHeight - 2).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 2, this.gridHeight - 2).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 3, this.gridHeight - 2).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 2, this.gridHeight - 3).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 1, this.gridHeight - 3).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 3, this.gridHeight - 1).setSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 1, this.gridHeight - 1).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 2, this.gridHeight - 1).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 1, this.gridHeight - 2).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 2, this.gridHeight - 2).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 3, this.gridHeight - 2).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 2, this.gridHeight - 3).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 1, this.gridHeight - 3).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 3, this.gridHeight - 1).setCellSurface(Surface.GRASS);
 
-		grid.getCell(this.gridWidth - 4, this.gridHeight - 1).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 1, this.gridHeight - 4).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 5, this.gridHeight - 1).setSurface(Surface.GRASS);
-		grid.getCell(this.gridWidth - 1, this.gridHeight - 5).setSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 4, this.gridHeight - 1).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 1, this.gridHeight - 4).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 5, this.gridHeight - 1).setCellSurface(Surface.GRASS);
+		grid.getCellAtSpecificsCoords(this.gridWidth - 1, this.gridHeight - 5).setCellSurface(Surface.GRASS);
 	}
 
 	/**
@@ -139,26 +129,26 @@ public class GridGenerator
 			for (int column = 0; column < this.gridHeight; column++)
 			{
 
-				if (grid.getCell(line, column).getSurface() == Surface.SAND)
+				if (grid.getCellAtSpecificsCoords(line, column).getCellSurface() == Surface.SAND)
 				{
 					if (line != this.gridWidth - 1
-							&& grid.getCell(line + 1, column).getSurface() != Surface.WATER)
+							&& grid.getCellAtSpecificsCoords(line + 1, column).getCellSurface() != Surface.WATER)
 					{
 
 						if (line != 0
-								&& grid.getCell(line - 1, column).getSurface() != Surface.WATER)
+								&& grid.getCellAtSpecificsCoords(line - 1, column).getCellSurface() != Surface.WATER)
 						{
 
 							if (column != this.gridHeight - 1
-									&& grid.getCell(line, column + 1).getSurface() != Surface.WATER)
+									&& grid.getCellAtSpecificsCoords(line, column + 1).getCellSurface() != Surface.WATER)
 							{
 
 								if (column != 0
-										&& grid.getCell(line, column - 1)
-												.getSurface() != Surface.WATER)
+										&& grid.getCellAtSpecificsCoords(line, column - 1)
+												.getCellSurface() != Surface.WATER)
 								{
 
-									grid.getCell(line, column).setSurface(Surface.GRASS);
+									grid.getCellAtSpecificsCoords(line, column).setCellSurface(Surface.GRASS);
 								}
 							}
 						}
@@ -181,37 +171,37 @@ public class GridGenerator
 			for (int column = 0; column < this.gridHeight; column++)
 			{
 
-				if (grid.getCell(line, column).getSurface() == Surface.WATER)
+				if (grid.getCellAtSpecificsCoords(line, column).getCellSurface() == Surface.WATER)
 				{
 					if (line != this.gridWidth - 1
-							&& grid.getCell(line + 1, column).getSurface() != Surface.WATER)
+							&& grid.getCellAtSpecificsCoords(line + 1, column).getCellSurface() != Surface.WATER)
 					{
 
-						grid.getCell(line + 1, column).setSurface(Surface.SAND);
+						grid.getCellAtSpecificsCoords(line + 1, column).setCellSurface(Surface.SAND);
 
 					}
 
 					if (line != 0
-							&& grid.getCell(line - 1, column).getSurface() != Surface.WATER)
+							&& grid.getCellAtSpecificsCoords(line - 1, column).getCellSurface() != Surface.WATER)
 					{
 
-						grid.getCell(line - 1, column).setSurface(Surface.SAND);
+						grid.getCellAtSpecificsCoords(line - 1, column).setCellSurface(Surface.SAND);
 
 					}
 
 					if (column != this.gridHeight - 1
-							&& grid.getCell(line, column + 1).getSurface() != Surface.WATER)
+							&& grid.getCellAtSpecificsCoords(line, column + 1).getCellSurface() != Surface.WATER)
 					{
 
-						grid.getCell(line, column + 1).setSurface(Surface.SAND);
+						grid.getCellAtSpecificsCoords(line, column + 1).setCellSurface(Surface.SAND);
 
 					}
 
 					if (column != 0
-							&& grid.getCell(line, column - 1).getSurface() != Surface.WATER)
+							&& grid.getCellAtSpecificsCoords(line, column - 1).getCellSurface() != Surface.WATER)
 					{
 
-						grid.getCell(line, column - 1).setSurface(Surface.SAND);
+						grid.getCellAtSpecificsCoords(line, column - 1).setCellSurface(Surface.SAND);
 					}
 				}
 
@@ -239,13 +229,13 @@ public class GridGenerator
 												// (exclusive).
 				if (randInt >= 0 && randInt <= 10)
 				{
-					grid.getCell(line, column).setSurface(Surface.GRASS);
+					grid.getCellAtSpecificsCoords(line, column).setCellSurface(Surface.GRASS);
 				} else if (randInt == 11)
 				{
-					grid.getCell(line, column).setSurface(Surface.ROCK);
+					grid.getCellAtSpecificsCoords(line, column).setCellSurface(Surface.ROCK);
 				} else if (randInt == 12)
 				{
-					grid.getCell(line, column).setSurface(Surface.WATER);
+					grid.getCellAtSpecificsCoords(line, column).setCellSurface(Surface.WATER);
 				}
 
 			}
@@ -268,31 +258,31 @@ public class GridGenerator
 			for (int column = 0; column < this.gridHeight; column++)
 			{
 
-				if (grid.getCell(line, column).getSurface() == surface)
+				if (grid.getCellAtSpecificsCoords(line, column).getCellSurface() == surface)
 				{
 					if (line != this.gridWidth - 1
-							&& grid.getCell(line + 1, column).getSurface() == grid
-									.getCell(line, column).getSurface())
+							&& grid.getCellAtSpecificsCoords(line + 1, column).getCellSurface() == grid
+									.getCellAtSpecificsCoords(line, column).getCellSurface())
 					{
 
 					} else if (line != 0
-							&& grid.getCell(line - 1, column).getSurface() == grid
-									.getCell(line, column).getSurface())
+							&& grid.getCellAtSpecificsCoords(line - 1, column).getCellSurface() == grid
+									.getCellAtSpecificsCoords(line, column).getCellSurface())
 					{
 
 					} else if (column != this.gridHeight - 1
-							&& grid.getCell(line, column + 1).getSurface() == grid
-									.getCell(line, column).getSurface())
+							&& grid.getCellAtSpecificsCoords(line, column + 1).getCellSurface() == grid
+									.getCellAtSpecificsCoords(line, column).getCellSurface())
 					{
 
 					} else if (column != 0
-							&& grid.getCell(line, column - 1).getSurface() == grid
-									.getCell(line, column).getSurface())
+							&& grid.getCellAtSpecificsCoords(line, column - 1).getCellSurface() == grid
+									.getCellAtSpecificsCoords(line, column).getCellSurface())
 					{
 
 					} else
 					{
-						grid.getCell(line, column).setSurface(Surface.GRASS);
+						grid.getCellAtSpecificsCoords(line, column).setCellSurface(Surface.GRASS);
 					}
 				}
 
@@ -318,16 +308,16 @@ public class GridGenerator
 			{
 
 				if (pos.getXCoord() + line < this.gridWidth && pos.getYCoord() + column < this.gridHeight)
-					grid.getCell(pos.newPos(line, column)).setSurface(Surface.WATER);
+					grid.getCellAtASpecificPos(pos.newPos(line, column)).setCellSurface(Surface.WATER);
 
 				if (pos.getXCoord() - line >= 0 && pos.getYCoord() + column < this.gridHeight)
-					grid.getCell(pos.newPos(-line, column)).setSurface(Surface.WATER);
+					grid.getCellAtASpecificPos(pos.newPos(-line, column)).setCellSurface(Surface.WATER);
 
 				if (pos.getXCoord() - line >= 0 && pos.getYCoord() - column >= 0)
-					grid.getCell(pos.newPos(-line, -column)).setSurface(Surface.WATER);
+					grid.getCellAtASpecificPos(pos.newPos(-line, -column)).setCellSurface(Surface.WATER);
 
 				if (pos.getXCoord() + line < this.gridWidth && pos.getYCoord() - column >= 0)
-					grid.getCell(pos.newPos(line, -column)).setSurface(Surface.WATER);
+					grid.getCellAtASpecificPos(pos.newPos(line, -column)).setCellSurface(Surface.WATER);
 			}
 		}
 

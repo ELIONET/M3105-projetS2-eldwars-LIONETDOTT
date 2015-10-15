@@ -22,32 +22,17 @@ import fr.iutvalence.groupe8.eldwars.model.units.UnitType;
  */
 public class Grid {
 
-	/**
-	 * The Grid.
-	 */
 	private final Cell[][] grid;
 
-	/**
-	 * The Grid's width.
-	 */
-	private final int width;
+	private final int gridWidth;
 
-	/**
-	 * The Grid's height.
-	 */
-	private final int height;
+	private final int gridHeight;
 
-	/**
-	 * The Grid constructor.
-	 * 
-	 * @param width
-	 * @param height
-	 */
 	public Grid(int width, int height) {
 
-		this.width = width;
+		this.gridWidth = width;
 
-		this.height = height;
+		this.gridHeight = height;
 
 		// Initialization of the grid.
 		this.grid = new Cell[width][height];
@@ -61,16 +46,11 @@ public class Grid {
 		}
 	}
 
-	/**
-	 * Get the String representation of the Grid.
-	 * 
-	 * @return The Grid in a String.
-	 */
-	public String getText() {
+	public String getStringRepresentationOfTheGrid() {
 		StringBuilder sb = new StringBuilder();
 		for (Cell[] cells : grid) {
 			for (Cell cell : cells) {
-				sb.append(cell.getSurface());
+				sb.append(cell.getCellSurface());
 			}
 			sb.append("\n");
 		}
@@ -78,58 +58,39 @@ public class Grid {
 		return sb.toString();
 	}
 
-	/**
-	 * Get the Cell at the specified position.
-	 * 
-	 * @param x
-	 * @param y
-	 * @return A Cell.
-	 */
-	public Cell getCell(int x, int y) {
+	public Cell getCellAtSpecificsCoords(int x, int y) {
 		return grid[x][y];
 	}
 
-	/**
-	 * Get the Cell at the specified position.
-	 * 
-	 * @param pos
-	 * @return A Cell.
-	 */
-	public Cell getCell(Pos pos) {
+	public Cell getCellAtASpecificPos(Pos pos) {
 		return grid[pos.getXCoord()][pos.getYCoord()];
 	}
 
-	/**
-	 * Gets possible moves around a specific position.
-	 * 
-	 * @param pos
-	 * @return List of Pos.
-	 */
 	private Set<Pos> possiblesMovesAroundASpecificPosition(Pos pos) {
 		HashSet<Pos> listOfCellAroundASpecificPosition = new HashSet<Pos>();
 		int x = pos.getXCoord(), y = pos.getYCoord();
 
 		// We must check if positions around the first one aren't out of the
 		// grid and are navigable.
-		if (x + 1 < this.width && getCell(x + 1, y).getSurface().canWalkOn()
+		if (x + 1 < this.gridWidth && getCellAtSpecificsCoords(x + 1, y).getCellSurface().canWalkOn()
 				&& !listOfCellAroundASpecificPosition.contains(pos.newPos(1, 0))) {
 			listOfCellAroundASpecificPosition.add(pos.newPos(1, 0));
 		}
 
 		if (x - 1 >= 0
-				&& getCell(x - 1, y).getSurface().canWalkOn()
+				&& getCellAtSpecificsCoords(x - 1, y).getCellSurface().canWalkOn()
 				&& !listOfCellAroundASpecificPosition
 						.contains(pos.newPos(-1, 0))) {
 			listOfCellAroundASpecificPosition.add(pos.newPos(-1, 0));
 		}
 
-		if (y + 1 < this.height && getCell(x, y + 1).getSurface().canWalkOn()
+		if (y + 1 < this.gridHeight && getCellAtSpecificsCoords(x, y + 1).getCellSurface().canWalkOn()
 				&& !listOfCellAroundASpecificPosition.contains(pos.newPos(0, 1))) {
 			listOfCellAroundASpecificPosition.add(pos.newPos(0, 1));
 		}
 
 		if (y - 1 >= 0
-				&& getCell(x, y - 1).getSurface().canWalkOn()
+				&& getCellAtSpecificsCoords(x, y - 1).getCellSurface().canWalkOn()
 				&& !listOfCellAroundASpecificPosition
 						.contains(pos.newPos(0, -1))) {
 			listOfCellAroundASpecificPosition.add(pos.newPos(0, -1));
@@ -138,27 +99,21 @@ public class Grid {
 		return listOfCellAroundASpecificPosition;
 	}
 	
-	
-	/**
-	 * Allows to know where the commander can recruit units
-	 * @param unitPosition
-	 * @return
-	 */
 	private List<Pos> cellsAroundACell(Pos unitPosition) {
 		List<Pos> list = new LinkedList<Pos>();
-		if (unitPosition.getXCoord() + 1 <= this.width && getCell(unitPosition.newPos(1, 0)).getSurface().canWalkOn()) {
+		if (unitPosition.getXCoord() + 1 <= this.gridWidth && getCellAtASpecificPos(unitPosition.newPos(1, 0)).getCellSurface().canWalkOn()) {
 			list.add(unitPosition.newPos(1, 0));
 		}
 		
-		if (unitPosition.getXCoord() - 1 >= 0 && getCell(unitPosition.newPos(-1, 0)).getSurface().canWalkOn()) {
+		if (unitPosition.getXCoord() - 1 >= 0 && getCellAtASpecificPos(unitPosition.newPos(-1, 0)).getCellSurface().canWalkOn()) {
 			list.add(unitPosition.newPos(-1, 0));
 		}
 		
-		if (unitPosition.getYCoord() + 1 <= this.height && getCell(unitPosition.newPos(0, 1)).getSurface().canWalkOn()) {
+		if (unitPosition.getYCoord() + 1 <= this.gridHeight && getCellAtASpecificPos(unitPosition.newPos(0, 1)).getCellSurface().canWalkOn()) {
 			list.add(unitPosition.newPos(0, 1));
 		}
 		
-		if (unitPosition.getYCoord() - 1 >= 0 && getCell(unitPosition.newPos(0, -1)).getSurface().canWalkOn()) {
+		if (unitPosition.getYCoord() - 1 >= 0 && getCellAtASpecificPos(unitPosition.newPos(0, -1)).getCellSurface().canWalkOn()) {
 			list.add(unitPosition.newPos(0, -1));
 		}
 		return list;
@@ -171,7 +126,7 @@ public class Grid {
 	 * @return List of pos.
 	 */
 	private List<Pos> cellInRangeOfAttack(Pos unitPosition) {
-		Unit unit = getCell(unitPosition).getUnit();
+		Unit unit = getCellAtASpecificPos(unitPosition).getUnitOnThisCell();
 		List<Pos> listOfCellInRangeOfAttack = new LinkedList<Pos>();
 		List<Pos> tempList = new LinkedList<Pos>();
 		int unitRange = unit.getRange();
@@ -181,11 +136,11 @@ public class Grid {
 			// For every already reachable positions (in term of range), we add
 			// every which are one cell further.
 			for (int i = 0; i < tempList.size(); i++) {
-				if (tempList.get(i).getXCoord() + 1 < this.width)
+				if (tempList.get(i).getXCoord() + 1 < this.gridWidth)
 					listOfCellInRangeOfAttack.add(tempList.get(i).newPos(1, 0));
 				if (tempList.get(i).getXCoord() - 1 >= 0)
 					listOfCellInRangeOfAttack.add(tempList.get(i).newPos(-1, 0));
-				if (tempList.get(i).getYCoord() + 1 < this.height)
+				if (tempList.get(i).getYCoord() + 1 < this.gridHeight)
 					listOfCellInRangeOfAttack.add(tempList.get(i).newPos(0, 1));
 				if (tempList.get(i).getYCoord() - 1 >= 0)
 					listOfCellInRangeOfAttack.add(tempList.get(i).newPos(0, -1));
@@ -206,7 +161,7 @@ public class Grid {
 	 */
 	private List<Pos> possiblesMoves(Pos unitPosition) {
 
-		Unit unit = getCell(unitPosition).getUnit();
+		Unit unit = getCellAtASpecificPos(unitPosition).getUnitOnThisCell();
 		List<Pos> listOfCell = new LinkedList<Pos>();
 		List<Pos> tempList = new LinkedList<Pos>();
 		int currentmovementPoints = unit.getMovementPoints();
@@ -254,17 +209,11 @@ public class Grid {
 		return listOfCell;
 	}
 
-	/**
-	 * Gets all cells that a unit can attack.
-	 * 
-	 * @param unitPosition
-	 * @return
-	 */
 	private List<Pos> possiblesAttackCellsAroundASpecificPosition(
 			Pos unitPosition) {
 		List<Pos> listOfPos = new LinkedList<Pos>();
 		List<Pos> listOfPosInRange = new LinkedList<Pos>();
-		int dX, dY, e, counter = 0;
+		int coordXErrorValue, coordYErrorValue, errorValue, counter = 0;
 
 		listOfPosInRange = cellInRangeOfAttack(unitPosition);
 		for (int index = 0; index < listOfPosInRange.size(); index++) {
@@ -279,47 +228,47 @@ public class Grid {
 		// http://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_segment_de_Bresenham
 		// I had to set it, because it wasn't able to work for every situation.
 		while (counter < listOfPosInRange.size()) {
-			int x1 = unitPosition.getXCoord(), y1 = unitPosition.getYCoord();
-			int x2 = listOfPosInRange.get(counter).getXCoord(), y2 = listOfPosInRange
+			int unitXCoord = unitPosition.getXCoord(), unitYCoord = unitPosition.getYCoord();
+			int cellXCoord = listOfPosInRange.get(counter).getXCoord(), cellYCoord = listOfPosInRange
 					.get(counter).getYCoord();
 			// Searching for case according to the X coordinates if
-			// |x1-x2|>|y1-y2|.
-			if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
-				e = Math.abs(x1 - x2);
-				dX = e * 2;
-				dY = Math.abs(y1 - y2) * 2;
+			// |unitXCoord-cellXCoord|>|unitYCorod-cellY|.
+			if (Math.abs(unitXCoord - cellXCoord) > Math.abs(unitYCoord - cellYCoord)) {
+				errorValue = Math.abs(unitXCoord - cellXCoord);
+				coordXErrorValue = errorValue * 2;
+				coordYErrorValue = Math.abs(unitYCoord - cellYCoord) * 2;
 				// To avoid sign problems, we check if x2>=x1
-				if (x2 >= x1) {
-					while (x1 <= x2
-							&& getCell(x1, y1).getSurface().canFireThrough()) {
-						listOfPos.add(new Pos(x1, y1));
-						x1++;
-						e -= dY;
-						if (e <= 0 && x1 <= this.height) {
-							if (e == 0
-									&& getCell(x2, y2).getSurface()
+				if (cellXCoord >= unitXCoord) {
+					while (unitXCoord <= cellXCoord
+							&& getCellAtSpecificsCoords(unitXCoord, unitYCoord).getCellSurface().canFireThrough()) {
+						listOfPos.add(new Pos(unitXCoord, unitYCoord));
+						unitXCoord++;
+						errorValue -= coordYErrorValue;
+						if (errorValue <= 0 && unitXCoord <= this.gridHeight) {
+							if (errorValue == 0
+									&& getCellAtSpecificsCoords(cellXCoord, cellYCoord).getCellSurface()
 											.canFireThrough())
-								listOfPos.add(new Pos(x1, y1));
-							y1++;
-							e += dX;
+								listOfPos.add(new Pos(unitXCoord, unitYCoord));
+							unitYCoord++;
+							errorValue += coordXErrorValue;
 						}
-						if(y1>this.width || x1>this.height)
+						if(unitYCoord>this.gridWidth || unitXCoord>this.gridHeight)
 							break;
 					}
 				} else {
-					while (x2 <= x1
-							&& getCell(x1, y1).getSurface().canFireThrough()) {
-						listOfPos.add(new Pos(x1, y1));
-						x1--;
-						e -= dY;
-						if (e <= 0 && x1>=0) {
-							if (e == 0 && getCell(x1, y1).getSurface()
+					while (cellXCoord <= unitXCoord
+							&& getCellAtSpecificsCoords(unitXCoord, unitYCoord).getCellSurface().canFireThrough()) {
+						listOfPos.add(new Pos(unitXCoord, unitYCoord));
+						unitXCoord--;
+						errorValue -= coordYErrorValue;
+						if (errorValue <= 0 && unitXCoord>=0) {
+							if (errorValue == 0 && getCellAtSpecificsCoords(unitXCoord, unitYCoord).getCellSurface()
 									.canFireThrough())
-								listOfPos.add(new Pos(x1, y1));
-							y1--;
-							e += dX;
+								listOfPos.add(new Pos(unitXCoord, unitYCoord));
+							unitYCoord--;
+							errorValue += coordXErrorValue;
 						}
-						if(y1<0 || x1<0)
+						if(unitYCoord<0 || unitXCoord<0)
 							break;
 					}
 				}
@@ -328,45 +277,45 @@ public class Grid {
 			// Else, do according to the Y coordinate
 			else {
 
-				e = Math.abs(y1 - y2);
-				dX = e * 2;
-				dY = Math.abs(x1 - x2) * 2;
+				errorValue = Math.abs(unitYCoord - cellYCoord);
+				coordXErrorValue = errorValue * 2;
+				coordYErrorValue = Math.abs(unitXCoord - cellXCoord) * 2;
 				// To avoid sign problems we check if y2>=y1
-				if (y2 >= y1) {
-					while (y1 <= y2
-							&& getCell(x1, y1).getSurface().canFireThrough()) {
-						listOfPos.add(new Pos(x1, y1));
+				if (cellYCoord >= unitYCoord) {
+					while (unitYCoord <= cellYCoord
+							&& getCellAtSpecificsCoords(unitXCoord, unitYCoord).getCellSurface().canFireThrough()) {
+						listOfPos.add(new Pos(unitXCoord, unitYCoord));
 
-						y1++;
-						e -= dY;
-						if (e <= 0 && y1<=this.width) {
-							if (e == 0
-									&& getCell(x2, y2).getSurface()
+						unitYCoord++;
+						errorValue -= coordYErrorValue;
+						if (errorValue <= 0 && unitYCoord<=this.gridWidth) {
+							if (errorValue == 0
+									&& getCellAtSpecificsCoords(cellXCoord, cellYCoord).getCellSurface()
 											.canFireThrough())
-								listOfPos.add(new Pos(x1, y1));
-							x1++;
-							e += dX;
+								listOfPos.add(new Pos(unitXCoord, unitYCoord));
+							unitXCoord++;
+							errorValue += coordXErrorValue;
 						}
-						if(x1>this.height || y1>this.width)
+						if(unitXCoord>this.gridHeight || unitYCoord>this.gridWidth)
 							break;
 					}
 				} else {
-					while (y2 <= y1
-							&& getCell(x1, y1).getSurface().canFireThrough()) {
-						listOfPos.add(new Pos(x1, y1));
-						y1--;
-						e -= dY;
-						if (e <= 0 && y1>=0) {
-							if (e == 0
-									&& getCell(x1, y1).getSurface()
+					while (cellYCoord <= unitYCoord
+							&& getCellAtSpecificsCoords(unitXCoord, unitYCoord).getCellSurface().canFireThrough()) {
+						listOfPos.add(new Pos(unitXCoord, unitYCoord));
+						unitYCoord--;
+						errorValue -= coordYErrorValue;
+						if (errorValue <= 0 && unitYCoord>=0) {
+							if (errorValue == 0
+									&& getCellAtSpecificsCoords(unitXCoord, unitYCoord).getCellSurface()
 											.canFireThrough()) {
-								listOfPos.add(new Pos(x1, y1));
+								listOfPos.add(new Pos(unitXCoord, unitYCoord));
 							}
-							x1--;
-							e += dX;
+							unitXCoord--;
+							errorValue += coordXErrorValue;
 							
 						}
-						if(x1<0 || y1<0)
+						if(unitXCoord<0 || unitYCoord<0)
 							break;
 					}
 				}
@@ -386,7 +335,7 @@ public class Grid {
 	 */
 	public boolean moveAUnit(Pos initialPosition, Pos endPosition) {
 
-		Unit selectedUnit = getCell(initialPosition).getUnit();
+		Unit selectedUnit = getCellAtASpecificPos(initialPosition).getUnitOnThisCell();
 
 		int counter = 0;
 		List<Pos> reachableCells = new LinkedList<Pos>();
@@ -396,7 +345,7 @@ public class Grid {
 		reachableCells.addAll(setTemp);
 
 		if (selectedUnit != null && !initialPosition.equals(endPosition)
-				&& getCell(endPosition).getUnit() == null) {
+				&& getCellAtASpecificPos(endPosition).getUnitOnThisCell() == null) {
 			// We must check if the final position is not the initial one, and
 			// if the final position is empty.
 			while (counter < reachableCells.size()
@@ -413,8 +362,8 @@ public class Grid {
 				return false;
 			} else {
 				// endPosition is in reachableCells.
-				getCell(initialPosition).clearUnit();
-				getCell(endPosition).setUnitv2(selectedUnit, endPosition);
+				getCellAtASpecificPos(initialPosition).removeUnitFromThisCell();
+				getCellAtASpecificPos(endPosition).setUnitOnASpecificCell(selectedUnit, endPosition);
 				counter = 0;
 				reachableCells.clear();
 				return true;
@@ -424,19 +373,12 @@ public class Grid {
 		return false;
 	}
 
-	/**
-	 * Attack a unit, and clears the attacked unit if its life is under 0.
-	 * 
-	 * @param unit1Position
-	 * @param unit2Position
-	 * @return True if an unit has been attacked, false otherwise.
-	 */
 	public boolean attackAUnit(Pos unit1Position, Pos unit2Position) {
 
 		List<Pos> cellsInRange = new LinkedList<Pos>();
 		cellsInRange = possiblesAttackCellsAroundASpecificPosition(unit1Position);
-		Unit selectedUnit1 = getCell(unit1Position).getUnit();
-		Unit selectedUnit2 = getCell(unit2Position).getUnit();
+		Unit selectedUnit1 = getCellAtASpecificPos(unit1Position).getUnitOnThisCell();
+		Unit selectedUnit2 = getCellAtASpecificPos(unit2Position).getUnitOnThisCell();
 
 		for (int index = 0; index < cellsInRange.size(); index++) {
 			for (int index2 = index + 1; index2 < cellsInRange.size(); index2++) {
@@ -445,7 +387,7 @@ public class Grid {
 			}
 		}
 
-		if (getCell(unit2Position).getUnit() != null
+		if (getCellAtASpecificPos(unit2Position).getUnitOnThisCell() != null
 				&& !unit1Position.equals(unit2Position)) {
 			if (!cellsInRange.contains(unit2Position)) {
 				return false;
@@ -453,8 +395,8 @@ public class Grid {
 				selectedUnit2.setLife(selectedUnit2.getLife()
 						- selectedUnit1.getAttackDamage());
 				if (selectedUnit2.getLife() <= 0) {
-					getCell(unit2Position).getUnit().getOwner().removeOneUnitToPlayerCounter();
-					getCell(unit2Position).clearUnit();
+					getCellAtASpecificPos(unit2Position).getUnitOnThisCell().getOwner().removeOneUnitToPlayerCounter();
+					getCellAtASpecificPos(unit2Position).removeUnitFromThisCell();
 				}
 				return true;
 			}
@@ -481,24 +423,24 @@ public class Grid {
 		tempList.add(pos);
 		list.retainAll(tempList);
 
-		if (unitType == UnitType.BOWMAN && owner.getPlayerGold() >= Bowman.BOWMAN_COST && getCell(pos).getUnit() == null && !list.isEmpty()) {
-			this.getCell(pos).setUnit(new Bowman(owner, pos));
+		if (unitType == UnitType.BOWMAN && owner.getPlayerGold() >= Bowman.BOWMAN_COST && getCellAtASpecificPos(pos).getUnitOnThisCell() == null && !list.isEmpty()) {
+			this.getCellAtASpecificPos(pos).setUnitOnThisCell(new Bowman(owner, pos));
 			owner.removeGoldToThePlayer(Bowman.BOWMAN_COST);
 			owner.addOneUnitToPlayerCounter();
 			return true;
 
 		} else if (unitType == UnitType.SOLDIER
 				&& owner.getPlayerGold() >= Soldier.SOLDIER_COST
-				&& getCell(pos).getUnit() == null && !list.isEmpty()) {
-			this.getCell(pos).setUnit(new Soldier(owner, pos));
+				&& getCellAtASpecificPos(pos).getUnitOnThisCell() == null && !list.isEmpty()) {
+			this.getCellAtASpecificPos(pos).setUnitOnThisCell(new Soldier(owner, pos));
 			owner.removeGoldToThePlayer(Soldier.SOLDIER_COST);
 			owner.addOneUnitToPlayerCounter();
 			return true;
 
 		} else if (unitType == UnitType.HORSEMAN
 				&& owner.getPlayerGold() >= Horseman.HORSEMAN_COST
-				&& getCell(pos).getUnit() == null && !list.isEmpty()) {
-			this.getCell(pos).setUnit(new Horseman(owner, pos));
+				&& getCellAtASpecificPos(pos).getUnitOnThisCell() == null && !list.isEmpty()) {
+			this.getCellAtASpecificPos(pos).setUnitOnThisCell(new Horseman(owner, pos));
 			owner.removeGoldToThePlayer(Horseman.HORSEMAN_COST);
 			owner.addOneUnitToPlayerCounter();
 			return true;

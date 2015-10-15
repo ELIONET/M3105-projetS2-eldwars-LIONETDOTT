@@ -73,12 +73,12 @@ public class Turn {
 				// When you already selected a position or when you have just done it.
 				if (pos != null) {
 
-					if (grid.getCell(pos).getUnit() == null) {
+					if (grid.getCellAtASpecificPos(pos).getUnitOnThisCell() == null) {
 						// Cancels the Pos if there's no Unit on it.
 						pos = null;
 						this.window.getActionsArea().getUnitStats().reset();
 					} else {
-						selectedUnit = this.grid.getCell(pos).getUnit(); // Gets the Unit at the specified Pos.
+						selectedUnit = this.grid.getCellAtASpecificPos(pos).getUnitOnThisCell(); // Gets the Unit at the specified Pos.
 
 						// Updates the UnitStats.
 						this.window.getActionsArea().getUnitStats().setType(selectedUnit.getType());
@@ -88,7 +88,7 @@ public class Turn {
 						this.window.getActionsArea().getUnitStats().setMvt(selectedUnit.getMovementPoints());
 						this.window.getActionsArea().getUnitStats().setAttack(selectedUnit.getAttackDamage());
 
-						if (!grid.getCell(pos).getUnit().getOwner().equals(this.player))
+						if (!grid.getCellAtASpecificPos(pos).getUnitOnThisCell().getOwner().equals(this.player))
 							pos = null; // Cancels the Pos if the owner is not the current Player.
 					}
 
@@ -98,7 +98,7 @@ public class Turn {
 				if (pos != null) {
 					
 					// Activates the actions according to the selected Unit's type.
-					if (this.grid.getCell(pos).getUnit().getType() == UnitType.COMMANDER)
+					if (this.grid.getCellAtASpecificPos(pos).getUnitOnThisCell().getType() == UnitType.COMMANDER)
 						this.window.getActionsArea().unitSelected(ActionsArea.SELECTION_COMMANDER);
 					else
 						this.window.getActionsArea().unitSelected(ActionsArea.SELECTION_BASIC);
@@ -133,7 +133,7 @@ public class Turn {
 			
 			
 			// The Player wants to move a Unit.
-			if (!this.unitsThatMoved.contains(this.grid.getCell(pos).getUnit()) && !this.unitsThatAttacked.contains(this.grid.getCell(pos).getUnit())) {
+			if (!this.unitsThatMoved.contains(this.grid.getCellAtASpecificPos(pos).getUnitOnThisCell()) && !this.unitsThatAttacked.contains(this.grid.getCellAtASpecificPos(pos).getUnitOnThisCell())) {
 				// You can't move a Unit which already moved or attacked.
 				
 				Pos destPos = null;
@@ -149,17 +149,17 @@ public class Turn {
 				if (this.grid.moveAUnit(pos, destPos)) {
 				
 					// Adds the Unit to the collection.
-					this.unitsThatMoved.add(this.grid.getCell(destPos).getUnit());
+					this.unitsThatMoved.add(this.grid.getCellAtASpecificPos(destPos).getUnitOnThisCell());
 					
 					// Clears the old Cell.
 					this.window.getUnitsGridDisplay().updateSprite(pos, Surface.EMPTY);
 					
 					// Updates the destination Cell.
-					this.window.getUnitsGridDisplay().updateSprite(destPos, this.grid.getCell(destPos).getUnit().getSurface());
+					this.window.getUnitsGridDisplay().updateSprite(destPos, this.grid.getCellAtASpecificPos(destPos).getUnitOnThisCell().getSurface());
 					
-					if (this.grid.getCell(destPos).getSurface() == Surface.GRASS)
+					if (this.grid.getCellAtASpecificPos(destPos).getCellSurface() == Surface.GRASS)
 						SoundEngine.play(SoundType.GRASS);
-					else if (this.grid.getCell(destPos).getSurface() == Surface.SAND)
+					else if (this.grid.getCellAtASpecificPos(destPos).getCellSurface() == Surface.SAND)
 						SoundEngine.play(SoundType.SAND);
 					
 				
@@ -178,7 +178,7 @@ public class Turn {
 		} else if (act == ActionType.ATTACK) { // ATTACK CASE
 			
 			// The Player wants to attack.
-			if (!this.unitsThatAttacked.contains(this.grid.getCell(pos).getUnit())) {
+			if (!this.unitsThatAttacked.contains(this.grid.getCellAtASpecificPos(pos).getUnitOnThisCell())) {
 				// You can't move a Unit which already attacked.
 				
 				Pos targetPos;
@@ -189,7 +189,7 @@ public class Turn {
 				if (this.grid.attackAUnit(pos, targetPos)) {
 					// The attack succeed.
 					
-					if (this.grid.getCell(targetPos).getUnit() == null) {
+					if (this.grid.getCellAtASpecificPos(targetPos).getUnitOnThisCell() == null) {
 						
 						// The Unit is now dead.
 						this.window.getUnitsGridDisplay().updateSprite(targetPos, Surface.EMPTY);
@@ -197,13 +197,13 @@ public class Turn {
 					} else {
 						
 						// The Unit stills alive
-						this.window.getUnitsGridDisplay().updateSprite(targetPos, this.grid.getCell(targetPos).getUnit().getSurface());
+						this.window.getUnitsGridDisplay().updateSprite(targetPos, this.grid.getCellAtASpecificPos(targetPos).getUnitOnThisCell().getSurface());
 						
 					}
 					
-					this.unitsThatAttacked.add(this.grid.getCell(pos).getUnit());
+					this.unitsThatAttacked.add(this.grid.getCellAtASpecificPos(pos).getUnitOnThisCell());
 					
-					if (this.grid.getCell(pos).getUnit().getType() == UnitType.BOWMAN)
+					if (this.grid.getCellAtASpecificPos(pos).getUnitOnThisCell().getType() == UnitType.BOWMAN)
 						SoundEngine.play(SoundType.BOW);
 					else
 						SoundEngine.play(SoundType.SWORD);
@@ -221,7 +221,7 @@ public class Turn {
 				SoundEngine.play(SoundType.ERROR2);
 			}
 		
-		} else if (act == ActionType.RECRUIT && this.grid.getCell(pos).getUnit().getType() == UnitType.COMMANDER) { // RECRUIT CASE
+		} else if (act == ActionType.RECRUIT && this.grid.getCellAtASpecificPos(pos).getUnitOnThisCell().getType() == UnitType.COMMANDER) { // RECRUIT CASE
 			
 			Pos posToAddUnit = null;
 			this.window.setEnabled(false);
@@ -258,7 +258,7 @@ public class Turn {
 			
 		} else if (act == ActionType.UPGRADE) { // UPGRADE CASE
 			
-			Unit selectedUnit = this.grid.getCell(pos).getUnit();
+			Unit selectedUnit = this.grid.getCellAtASpecificPos(pos).getUnitOnThisCell();
 			
 			this.window.setEnabled(false);
 			if (new UpgradeUnitWindow(selectedUnit.getType(), selectedUnit.getLevel(), selectedUnit.getMaxLife(), selectedUnit.getMovementPoints(), selectedUnit.getAttackDamage(), selectedUnit.getRange(), selectedUnit.getCost()).showAndWaitForResult()) {

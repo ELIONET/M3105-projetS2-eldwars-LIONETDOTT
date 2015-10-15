@@ -39,11 +39,11 @@ public class Game {
 
 		// Places the Players' Commanders on the Map's extremities.
 		p1.getCommander().setPosition(new Pos(0, 0));
-		this.map.getGrid().getCell(0, 0).setUnit(p1.getCommander());
+		this.map.getGrid().getCellAtSpecificsCoords(0, 0).setUnitOnThisCell(p1.getCommander());
 		
 		
 		p2.getCommander().setPosition(new Pos(1, 0));
-		this.map.getGrid().getCell(1, 0).setUnit(p2.getCommander());
+		this.map.getGrid().getCellAtSpecificsCoords(1, 0).setUnitOnThisCell(p2.getCommander());
 		
 
 //		p2.getCommander().setPosition(new Pos(Map.DEFAULT_MAP_WIDTH - 1, Map.DEFAULT_MAP_HEIGHT - 1));
@@ -57,7 +57,7 @@ public class Game {
 
 		for (int line = 0; line < this.map.getMapWidth(); line++) {
 			for (int column = 0; column < this.map.getMapHeight(); column++) {
-				this.mainWindow.getGroundGridDisplay().updateSprite(line, column, this.map.getGrid().getCell(line, column).getSurface());
+				this.mainWindow.getGroundGridDisplay().updateSprite(line, column, this.map.getGrid().getCellAtSpecificsCoords(line, column).getCellSurface());
 			}
 		}
 
