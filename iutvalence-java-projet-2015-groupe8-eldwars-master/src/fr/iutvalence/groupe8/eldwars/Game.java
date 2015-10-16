@@ -35,7 +35,7 @@ public class Game {
 		// Generates the Map.
 		this.map = new Map();
 		GridGenerator mg = new GridGenerator();
-		this.map.setGrid(mg.nextGrid());
+		this.map.setGrid(mg.randomGrid());
 
 		// Places the Players' Commanders on the Map's extremities.
 		p1.getCommander().setPosition(new Pos(0, 0));

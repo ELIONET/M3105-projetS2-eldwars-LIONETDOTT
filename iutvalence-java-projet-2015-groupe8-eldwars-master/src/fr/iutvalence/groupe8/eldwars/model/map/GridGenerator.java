@@ -44,35 +44,30 @@ public class GridGenerator
 	{
 		this(Map.DEFAULT_MAP_WIDTH, Map.DEFAULT_MAP_HEIGHT);
 	}
-
-	/**
-	 * Generates a random Grid following an algorithm.
-	 * 
-	 * @return A Grid.
-	 */
-	public Grid nextGrid()
+	
+	public Grid randomGrid()
 	{
 
 		long time = System.currentTimeMillis() % 1000;
 
 		Grid grid = new Grid(this.gridWidth, this.gridHeight);
 		genRandomGrid(grid);
-		removeAngles(grid);
-		removeAloneSurfaces(grid, Surface.WATER);
-		removeAloneSurfaces(grid, Surface.SAND);
-		removeAloneSurfaces(grid, Surface.ROCK);
-		removeSandWithoutWater(grid);
-		spillWater(grid);
-		spillWater(grid);
-		removeAloneSurfaces(grid, Surface.WATER);
-		removeAloneSurfaces(grid, Surface.SAND);
-		removeAloneSurfaces(grid, Surface.ROCK);
-		circleWaterBySand(grid);
-		removeAngles(grid);
-		removeAloneSurfaces(grid, Surface.WATER);
-		removeAloneSurfaces(grid, Surface.SAND);
-		removeAloneSurfaces(grid, Surface.ROCK);
-		circleWaterBySand(grid);
+		placeGrassOnAngles(grid);
+		replaceSurfaceByGrassIfNoNeighboursOfSameType(grid, Surface.WATER);
+		replaceSurfaceByGrassIfNoNeighboursOfSameType(grid, Surface.SAND);
+		replaceSurfaceByGrassIfNoNeighboursOfSameType(grid, Surface.ROCK);
+		removeSandNextToNoWater(grid);
+		genRandomLake(grid);
+		genRandomLake(grid);
+		replaceSurfaceByGrassIfNoNeighboursOfSameType(grid, Surface.WATER);
+		replaceSurfaceByGrassIfNoNeighboursOfSameType(grid, Surface.SAND);
+		replaceSurfaceByGrassIfNoNeighboursOfSameType(grid, Surface.ROCK);
+		circleWaterWithSand(grid);
+		placeGrassOnAngles(grid);
+		replaceSurfaceByGrassIfNoNeighboursOfSameType(grid, Surface.WATER);
+		replaceSurfaceByGrassIfNoNeighboursOfSameType(grid, Surface.SAND);
+		replaceSurfaceByGrassIfNoNeighboursOfSameType(grid, Surface.ROCK);
+		circleWaterWithSand(grid);
 
 		System.out.println("Generated the Grid in "
 				+ (System.currentTimeMillis() % 1000 - time) + "ms.");
@@ -80,13 +75,7 @@ public class GridGenerator
 		return grid;
 	}
 
-	/**
-	 * Place grass on the angles.
-	 * 
-	 * @param grid
-	 *            - The grid to compute.
-	 */
-	private void removeAngles(Grid grid)
+	private void placeGrassOnAngles(Grid grid)
 	{
 
 		for (int grow1 = 0, grow2 = 0; grow1 < 3; grow1++)
@@ -116,13 +105,7 @@ public class GridGenerator
 		grid.getCellAtSpecificsCoords(this.gridWidth - 1, this.gridHeight - 5).setCellSurface(Surface.GRASS);
 	}
 
-	/**
-	 * Remove Sand surfaces where no neighbor is water.
-	 * 
-	 * @param grid
-	 *            - The grid to compute.
-	 */
-	private void removeSandWithoutWater(Grid grid)
+	private void removeSandNextToNoWater(Grid grid)
 	{
 		for (int line = 0; line < this.gridWidth; line++)
 		{
@@ -158,13 +141,7 @@ public class GridGenerator
 		}
 	}
 
-	/**
-	 * Circles water with sand.
-	 * 
-	 * @param grid
-	 *            - The grid to compute.
-	 */
-	private void circleWaterBySand(Grid grid)
+	private void circleWaterWithSand(Grid grid)
 	{
 		for (int line = 0; line < this.gridWidth; line++)
 		{
@@ -209,12 +186,6 @@ public class GridGenerator
 		}
 	}
 
-	/**
-	 * Generates a random Grid.
-	 * 
-	 * @param grid
-	 *            - The Grid to compute.
-	 */
 	private void genRandomGrid(Grid grid)
 	{
 		Random rand = new Random();
@@ -251,7 +222,7 @@ public class GridGenerator
 	 * @param surface
 	 *            - The Surface to search.
 	 */
-	private void removeAloneSurfaces(Grid grid, Surface surface)
+	private void replaceSurfaceByGrassIfNoNeighboursOfSameType(Grid grid, Surface surface)
 	{
 		for (int line = 0; line < this.gridWidth; line++)
 		{
@@ -291,13 +262,7 @@ public class GridGenerator
 
 	}
 
-	/**
-	 * Generates a random lake.
-	 * 
-	 * @param grid
-	 *            - The Grid to compute.
-	 */
-	private void spillWater(Grid grid)
+	private void genRandomLake(Grid grid)
 	{
 		Random rand = new Random();
 		Pos pos = new Pos(rand.nextInt(this.gridWidth), rand.nextInt(this.gridHeight));
@@ -323,21 +288,11 @@ public class GridGenerator
 
 	}
 
-	/**
-	 * Get the generator's Grid's width.
-	 * 
-	 * @return The generator's Grid's width.
-	 */
 	public int getGridWidth()
 	{
 		return gridWidth;
 	}
 
-	/**
-	 * Get the generator's Grid's height.
-	 * 
-	 * @return The generator's Grid's height.
-	 */
 	public int getGridHeight()
 	{
 		return gridHeight;

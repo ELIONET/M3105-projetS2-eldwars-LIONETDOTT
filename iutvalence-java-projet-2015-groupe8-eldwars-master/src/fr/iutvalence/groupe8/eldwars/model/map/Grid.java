@@ -72,25 +72,25 @@ public class Grid {
 
 		// We must check if positions around the first one aren't out of the
 		// grid and are navigable.
-		if (x + 1 < this.gridWidth && getCellAtSpecificsCoords(x + 1, y).getCellSurface().canWalkOn()
+		if (x + 1 < this.gridWidth && getCellAtSpecificsCoords(x + 1, y).getCellSurface().canWalkOnSurface()
 				&& !listOfCellAroundASpecificPosition.contains(pos.newPos(1, 0))) {
 			listOfCellAroundASpecificPosition.add(pos.newPos(1, 0));
 		}
 
 		if (x - 1 >= 0
-				&& getCellAtSpecificsCoords(x - 1, y).getCellSurface().canWalkOn()
+				&& getCellAtSpecificsCoords(x - 1, y).getCellSurface().canWalkOnSurface()
 				&& !listOfCellAroundASpecificPosition
 						.contains(pos.newPos(-1, 0))) {
 			listOfCellAroundASpecificPosition.add(pos.newPos(-1, 0));
 		}
 
-		if (y + 1 < this.gridHeight && getCellAtSpecificsCoords(x, y + 1).getCellSurface().canWalkOn()
+		if (y + 1 < this.gridHeight && getCellAtSpecificsCoords(x, y + 1).getCellSurface().canWalkOnSurface()
 				&& !listOfCellAroundASpecificPosition.contains(pos.newPos(0, 1))) {
 			listOfCellAroundASpecificPosition.add(pos.newPos(0, 1));
 		}
 
 		if (y - 1 >= 0
-				&& getCellAtSpecificsCoords(x, y - 1).getCellSurface().canWalkOn()
+				&& getCellAtSpecificsCoords(x, y - 1).getCellSurface().canWalkOnSurface()
 				&& !listOfCellAroundASpecificPosition
 						.contains(pos.newPos(0, -1))) {
 			listOfCellAroundASpecificPosition.add(pos.newPos(0, -1));
@@ -101,19 +101,19 @@ public class Grid {
 	
 	private List<Pos> cellsAroundACell(Pos unitPosition) {
 		List<Pos> list = new LinkedList<Pos>();
-		if (unitPosition.getXCoord() + 1 <= this.gridWidth && getCellAtASpecificPos(unitPosition.newPos(1, 0)).getCellSurface().canWalkOn()) {
+		if (unitPosition.getXCoord() + 1 <= this.gridWidth && getCellAtASpecificPos(unitPosition.newPos(1, 0)).getCellSurface().canWalkOnSurface()) {
 			list.add(unitPosition.newPos(1, 0));
 		}
 		
-		if (unitPosition.getXCoord() - 1 >= 0 && getCellAtASpecificPos(unitPosition.newPos(-1, 0)).getCellSurface().canWalkOn()) {
+		if (unitPosition.getXCoord() - 1 >= 0 && getCellAtASpecificPos(unitPosition.newPos(-1, 0)).getCellSurface().canWalkOnSurface()) {
 			list.add(unitPosition.newPos(-1, 0));
 		}
 		
-		if (unitPosition.getYCoord() + 1 <= this.gridHeight && getCellAtASpecificPos(unitPosition.newPos(0, 1)).getCellSurface().canWalkOn()) {
+		if (unitPosition.getYCoord() + 1 <= this.gridHeight && getCellAtASpecificPos(unitPosition.newPos(0, 1)).getCellSurface().canWalkOnSurface()) {
 			list.add(unitPosition.newPos(0, 1));
 		}
 		
-		if (unitPosition.getYCoord() - 1 >= 0 && getCellAtASpecificPos(unitPosition.newPos(0, -1)).getCellSurface().canWalkOn()) {
+		if (unitPosition.getYCoord() - 1 >= 0 && getCellAtASpecificPos(unitPosition.newPos(0, -1)).getCellSurface().canWalkOnSurface()) {
 			list.add(unitPosition.newPos(0, -1));
 		}
 		return list;
