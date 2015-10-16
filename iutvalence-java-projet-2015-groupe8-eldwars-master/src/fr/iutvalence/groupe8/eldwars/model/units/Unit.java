@@ -14,36 +14,18 @@ import fr.iutvalence.groupe8.eldwars.model.map.Surface;
  *
  */
 public abstract class Unit {
+	
+	protected final static int STARTING_LEVEL = 1;
 
-	/**
-	 * The level one.
-	 */
-	protected final static int LEVEL_ONE = 1;
+	protected final UnitType unitType;
 
-	/**
-	 * The Unit's type.
-	 */
-	protected final UnitType type;
+	protected int unitMaxLife;
 
-	/**
-	 * The Unit's max life.
-	 */
-	protected int maxLife;
+	protected int unitCurrentLife;
 
-	/**
-	 * The Unit's current life.
-	 */
-	protected int life;
+	protected int unitLevel;
 
-	/**
-	 * The Unit's level
-	 */
-	protected int level;
-
-	/**
-	 * The Unit's movement points.
-	 */
-	protected int movementPoints;
+	protected int unitMovementPoints;
 
 	/**
 	 * The Unit's attack damage.
@@ -81,7 +63,7 @@ public abstract class Unit {
 	 * @param type
 	 */
 	public Unit(UnitType type, Surface surface, Player owner, int range, int cost) {
-		this.type = type;
+		this.unitType = type;
 		this.surface = surface;
 		this.owner = owner;
 		this.range = range;
@@ -89,16 +71,16 @@ public abstract class Unit {
 	}
 
 	public Unit(UnitType type, Pos pos, Player owner, int range, Surface surface, int cost, int maxLife, int movementPoints, int attackDamage, int level) {
-		this.type = type;
+		this.unitType = type;
 		this.surface = surface;
 		this.owner = owner;
 		this.range = range;
 		this.position = pos;
 		this.cost = cost;
-		this.maxLife = maxLife;
-		this.life = maxLife;
-		this.movementPoints = movementPoints;
-		this.level = level;
+		this.unitMaxLife = maxLife;
+		this.unitCurrentLife = maxLife;
+		this.unitMovementPoints = movementPoints;
+		this.unitLevel = level;
 		this.attackDamage = attackDamage;
 	}
 
@@ -108,7 +90,7 @@ public abstract class Unit {
 	 * @return An integer.
 	 */
 	public int getLife() {
-		return life;
+		return unitCurrentLife;
 	}
 
 	/**
@@ -118,9 +100,9 @@ public abstract class Unit {
 	 *            - The new Unit's life.
 	 */
 	public void setLife(int life) {
-		this.life = life;
-		if (this.life < 0)
-			this.life = 0;
+		this.unitCurrentLife = life;
+		if (this.unitCurrentLife < 0)
+			this.unitCurrentLife = 0;
 	}
 
 	/**
@@ -129,7 +111,7 @@ public abstract class Unit {
 	 * @return A boolean.
 	 */
 	public boolean isDead() {
-		return (this.life == 0);
+		return (this.unitCurrentLife == 0);
 	}
 
 	/**
@@ -138,7 +120,7 @@ public abstract class Unit {
 	 * @return An integer.
 	 */
 	public int getLevel() {
-		return level;
+		return unitLevel;
 	}
 
 	/**
@@ -147,7 +129,7 @@ public abstract class Unit {
 	 * @return An integer.
 	 */
 	public int getMovementPoints() {
-		return this.movementPoints;
+		return this.unitMovementPoints;
 	}
 
 	/**
@@ -157,7 +139,7 @@ public abstract class Unit {
 	 *            - The movement points.
 	 */
 	public void setMovementPoints(int movementPoints) {
-		this.movementPoints = movementPoints;
+		this.unitMovementPoints = movementPoints;
 	}
 
 	/**
@@ -166,7 +148,7 @@ public abstract class Unit {
 	 * @return An integer.
 	 */
 	public int getMaxLife() {
-		return this.maxLife;
+		return this.unitMaxLife;
 	}
 
 	/**
@@ -176,7 +158,7 @@ public abstract class Unit {
 	 *            - The new maximum.
 	 */
 	public void setMaxLife(int maxLife) {
-		this.maxLife = maxLife;
+		this.unitMaxLife = maxLife;
 	}
 
 	/**
@@ -185,7 +167,7 @@ public abstract class Unit {
 	 * @return A UnitType.
 	 */
 	public UnitType getType() {
-		return type;
+		return unitType;
 	}
 
 	/**
